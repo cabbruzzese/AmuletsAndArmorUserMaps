@@ -1,0 +1,20 @@
+defnum	NOT_COMPLETE	0
+defnum	COMPLETE		1
+
+// Variables are defined with defvar and you have 1..255 of them
+defvar	ExitSwitch		1
+defvar	Block1			2
+
+Initialize:
+0: // Script run when the level is loaded
+	Unblock(Block1);
+	End()
+
+40:
+	End()
+
+201:
+	End()
+
+255: // Last possible script number
+	End()

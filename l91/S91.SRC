@@ -1,0 +1,60 @@
+defnum	NOT_COMPLETE	0
+defnum	COMPLETE		1
+
+// Variables are defined with defvar and you have 1..255 of them
+defvar	ExitSwitch		1
+defvar	Block1			2
+
+Initialize:
+0: // Script run when the level is loaded
+	Set(ExitSwitch, NOT_COMPLETE);
+	Unblock(Block1);
+	End()
+
+40:  // lower gates
+	Compare(ExitSwitch, COMPLETE);
+	If (Equal, 99); 
+	Block(Block1);   
+	ChangeSideTexture(1208,"SWIT1U");
+	AreaSound(6007,-3424,-2736,300,255);
+
+	Delay(100);
+
+	Sound(3005);
+	Effect(29, 0, 300, 0);
+
+	SlideFloorNice(71, 176, -32, 1400, -1);
+	SlideFloorNice(72, 176, -32, 1300, -1);
+	SlideFloorNice(73, 176, -32, 1200, -1);
+	SlideFloorNice(74, 176, -32, 1100, -1);
+	SlideFloorNice(75, 176, -32, 1000, -1);
+	SlideFloorNice(76, 176, -32, 1100, -1);
+	SlideFloorNice(77, 176, -32, 1200, -1);
+	SlideFloorNice(78, 176, -32, 1300, -1);
+	SlideFloorNice(79, 176, -32, 1400, -1);
+
+	SlideFloorNice(128, 164, 82, 100, -1);
+	SlideFloorNice(129, 164, 82, 100, -1);
+	SlideFloorNice(130, 164, 82, 100, -1);
+
+	Print("The blockade has been lowered. Return to the captain's quaters!");
+
+	Set(ExitSwitch, COMPLETE);
+	Unblock(Block1);
+	End()
+
+99: //Escape function
+	End()
+
+201: //cabin door if exist switch hit
+	Compare(ExitSwitch, COMPLETE);
+	If (Equal, 202);
+	Print("You must lower the blockade before leaving!")
+	End();
+
+202: //Teleport to cabin
+	Teleport(32, 16, 0);
+	End()
+
+255: // Last possible script number
+	End()

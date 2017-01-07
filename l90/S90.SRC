@@ -1,0 +1,46 @@
+defnum	NOT_COMPLETE	0
+defnum	COMPLETE		1
+
+// Variables are defined with defvar and you have 1..255 of them
+defvar	ExitSwitch		1
+defvar	Block1			2
+
+Initialize:
+0: // Script run when the level is loaded
+	Set(ExitSwitch,NOT_COMPLETE);
+	Unblock(Block1);
+	End()
+
+40:  // raise exit floor with switch
+	Compare(ExitSwitch,COMPLETE);
+	If (Equal,99); 
+	Block(Block1);
+	AreaSound(6007,448,2801,300,255);
+	ChangeSideTexture(2393,"SWIT1U");
+	Delay(1);
+	SlideFloorNice(143,-388,-388,100,-1);
+	Delay(1);
+	Print("The cargo hold is now open. Meet the others inside!");
+	Set(ExitSwitch,COMPLETE);
+	Unblock(Block1);
+	End()
+
+99: //Escape function
+	End()
+
+201:  //Exit if switch has been enabled
+	Compare(ExitSwitch,COMPLETE);
+	If(Equal,202);
+    End()
+
+202: //teleport to ending room
+	Teleport(-704,4928,0);
+	End()
+
+203: //Door Can't Be Opened Message
+	Print("This door is boarded up. It won't budge!");
+	Sound(6011);
+	End()
+
+255: // Last possible script number
+	End()
