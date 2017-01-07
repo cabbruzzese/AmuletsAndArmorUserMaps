@@ -1,0 +1,78 @@
+defnum  NOT_SWITCHED    0
+defnum  SWITCHED        1
+defnum  ON              2
+defnum  OFF             3
+
+defvar  one             1
+defvar	two				2
+defvar	three			3
+defvar  switch          4
+0:      //init
+        Unblock(one) ;
+        Unblock(two) ;
+        Unblock(three) ;
+		Set(switch, NOT_SWITCHED) ;
+        End() ;
+
+40:  // Shoot fireball from cannon 1
+		Block(one) ;
+        ChangeSideTexture(1496, "SWIT1U") ;
+		Sound(6007) ;
+		Delay(5);
+		GenerateMissile(4005, -1424, -1048, -288, -4499, -1048, -416, 120);
+		Delay(90) ;
+        ChangeSideTexture(1496, "SWIT1D") ;
+		Unblock(one) ;
+		End() ;
+
+41:  // Shoot fireball from cannon 2
+		Block(two) ;
+        ChangeSideTexture(1504, "SWIT1U") ;
+		Sound(6007) ;
+		Delay(5);
+		GenerateMissile(4005, -1696, -1264, -288, -4499, -1264, -416, 120);
+		Delay(90) ;
+        ChangeSideTexture(1504, "SWIT1D") ;
+		Unblock(two) ;
+		End() ;
+
+42:  // Shoot fireball from cannon 3
+		Block(three) ;
+        ChangeSideTexture(1512, "SWIT1U") ;
+		Sound(6007) ;
+		Delay(5);
+		GenerateMissile(4005, -1632, -1438, -288, -4000, -1376, -288, 120);
+		Compare(switch, NOT_SWITCHED) ;
+        If(Equal, 101) ;
+		Delay(90) ;
+        ChangeSideTexture(1512, "SWIT1D") ;
+		Unblock(three) ;
+		End() ;
+
+100:    //end all
+        End() ;
+
+101:	//Lower exit block
+		Set(switch, SWITCHED) ;
+		Delay(148) ;
+		ObjectSetType(207, 285) ; //explode barrels
+        ChangeSideTexture(1512, "SWIT1D") ;
+		SlideFloorNice(152, -404, -404, 1, -1);
+		Print("The cannon has destroyed that ledge!") ;
+		Unblock(three) ;
+		End();
+
+201:	//Teleport to tower
+		Delay(1) ;
+		Teleport(-2528, 128, 0) ;
+		End() ;
+
+202:	//Teleport to middle of tower
+		Delay(1) ;
+		Teleport(-1840, 128, 0) ;
+		End() ;
+
+203:	//Teleport to middle of tower
+		Delay(1) ;
+		Teleport(592, 128, 0) ;
+		End() ;

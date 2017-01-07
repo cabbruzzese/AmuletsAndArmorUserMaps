@@ -1,0 +1,15 @@
+# Event list
+Initialize              0
+EnterSector             1
+WallPressed             2
+CreatureDied            3
+TimeUpdate              4
+ButtonPushed            5
+ButtonReleased          6
+TextBoxGainedFocus      7
+TextBoxLostFocus        8
+TextBoxAccepted         9
+TextBoxDataChanged      10
+TextBoxSelectionChanged 11
+UseWeapon               12
+

@@ -1,0 +1,70 @@
+defnum  NOT_SWITCHED    0
+defnum  SWITCHED        1
+defnum  ON              2
+defnum  OFF             3
+
+defvar  one             1
+defvar	two				2
+defvar	three			3
+defvar	aud				4
+defvar  switch          5
+0:      //init
+        Set(switch, NOT_SWITCHED) ;
+        Set(aud, NOT_SWITCHED) ;
+        Unblock(one) ;
+        End() ;
+
+1:      //open library
+        Compare(switch, SWITCHED) ;
+        If(Equal, 100) ;
+        Block(one) ;
+		Set(switch, SWITCHED) ;
+        AreaSound(5001, 64, -1832, 700, 255) ;
+        ChangeSideTexture(1879, "SWIT1U") ;
+		Print("A door opens in the distance.") ;
+		Delay(200);
+		AreaSound(18, 144, -1614, 168, 255) ; 
+		SlideCeilingNice(151, 264, 368, 200, -1) ; //waterfall
+		SlideCeilingNice(157, 307, 411, 200, -1) ; // library
+		ObjectSetType(87, 1003) ; //spawn ghosts
+		ObjectSetType(121, 1003) ; //spawn ghosts
+		ObjectSetType(134, 1003) ; //spawn ghosts
+		ObjectSetType(148, 1003) ; //spawn ghosts
+		ObjectSetType(143, 1003) ; //spawn ghosts
+		ObjectSetType(146, 1003) ; //spawn ghosts
+        Unblock(one) ;
+        End() ;
+
+2:		//Open Auditorium
+		Compare(aud, SWITCHED) ;
+		If(Equal, 100) ;
+		Block(two) ;
+		Set(aud, SWITCHED) ;
+		Delay(110);
+		AreaSound(18, 1595, 1863, 168, 255) ;  // open door 109
+		SlideCeilingNice(109, 232, 344, 20, -1) ;
+		AreaSound(18, 2384, 1912, 168, 255) ;  // open door 110
+		SlideCeilingNice(110, 232, 344, 20, -1) ;
+		Delay(10);
+		AreaSound(18, 1595, 2000, 2112, 255) ;  // open door 116
+		SlideCeilingNice(116, 400, 504, 20, -1) ;
+		Unblock(two) ;
+		End() ;
+
+100:    //end all
+        End() ;
+
+201:	//Teleport to waterfall
+		Delay(5) ;
+		Teleport(-168, -1744, 0) ;
+		End() ;
+
+202:	//trap
+		Compare(switch, NOT_SWITCHED) ; //if ghosts not active
+        If(Equal, 203) ;
+		End() ;
+
+203:	//damage
+		Print("For a moment you feel gravely ill.") ;
+		Effect(43, 0, 0, 600) ;
+		End() ;

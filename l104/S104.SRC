@@ -1,0 +1,16 @@
+defnum  NOT_SWITCHED    0
+defnum  SWITCHED        1
+defnum  ON              2
+defnum  OFF             3
+
+defvar  one             1
+defvar	two				2
+defvar	three			3
+defvar  switch          5
+
+0:      //init
+        Unblock(one) ;
+        Unblock(two) ;
+        Unblock(three) ;
+		Set(switch, NOT_SWITCHED) ;
+        End() ;

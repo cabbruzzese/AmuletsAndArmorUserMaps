@@ -1,0 +1,65 @@
+defnum  NOT_SWITCHED    0
+defnum  SWITCHED        1
+defnum  ON              2
+defnum  OFF             3
+
+defvar  one             1
+defvar	two				2
+defvar	three			3
+defvar  switch          4
+defvar	switch2			5
+0:      //init
+        Unblock(one) ;
+        Unblock(two) ;
+        Unblock(three) ;
+		Set(switch, NOT_SWITCHED) ;
+		Set(switch2, NOT_SWITCHED) ;
+        End() ;
+
+40:  // lower castle platform
+		Compare(switch, SWITCHED) ;
+        If(Equal, 100) ; //already switch, goto end all
+		Block(one) ;
+		Set(switch, SWITCHED)
+        ChangeSideTexture(854, "SWIT1U") ;
+		Sound(6007) ;
+		Delay(1);
+		SlideFloorNice(75, 144, -8, 24, -1) ; // castle platform
+		Unblock(one) ;
+		End() ;
+
+41: //Raise castle platform and return after a pause
+		Compare(switch, NOT_SWITCHED) ;
+        If(Equal, 100) ; //not switch, goto end all
+		Block(two) ;
+		Delay(5) ;
+		SlideFloorNice(75, -8, 144, 64, -1) ; // castle platform
+		Delay(192) ;//68 * 3
+		SlideFloorNice(75, 144, -8, 64, -1) ; // castle platform
+		Unblock(two) ;
+		End();
+
+42: //Raise secret doors and stone platforms at castle entrance
+		Compare(switch2, SWITCHED) ;
+        If(Equal, 100) ; //not switch, goto end all
+		Block(three) ;
+		Set(switch2, SWITCHED)
+        If(Equal, 100) ; //not switch, goto end all
+		SlideCeilingNice(140, 176, 267, 24, -1) ; // door 1
+		Delay(16);
+		SlideFloorNice(154, -16, 112, 48, -1) ; // platform 1
+		Delay(16);
+		SlideFloorNice(155, -16, 112, 48, -1) ; // platform 2
+		Delay(16);
+		SlideCeilingNice(147, 176, 267, 24, -1) ; // door 2
+		Delay(16);
+		Unblock(three);
+		End();
+
+100:    //end all
+        End() ;
+
+201: //Teleport to other fountain
+		Delay(1) ;
+		Teleport(-240, 4048, 0) ;
+		End() ;

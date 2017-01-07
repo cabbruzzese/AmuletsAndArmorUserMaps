@@ -1,0 +1,307 @@
+defnum  NOT_SWITCHED    0
+defnum  SWITCHED        1
+defnum  ON              2
+defnum  OFF             3
+
+defvar  one             1
+defvar	two				2
+defvar	three			3
+defvar	four			4
+defvar  switch          5
+defvar	switch2			6
+defvar  switch3         7
+defvar	switch4			8
+defvar  switch5         9
+defvar	switch6			10
+defvar	litactive		11
+defvar  endactive		12
+defvar	portalopen		13
+
+0:      //init
+        Unblock(one) ;
+        Unblock(two) ;
+        Unblock(three) ;
+		Set(switch, NOT_SWITCHED) ;
+		Set(switch2, NOT_SWITCHED) ;
+		Set(switch3, NOT_SWITCHED) ;
+		Set(switch4, NOT_SWITCHED) ;
+		Set(switch5, NOT_SWITCHED) ;
+		Set(switch6, NOT_SWITCHED) ;
+		Set(litactive, OFF) ;
+		Set(endactive, OFF) ;
+		Set(portalopen, NOT_SWITCHED) ;
+        End() ;
+
+40:  //Start Lightning Strikes
+		Block(one) ;
+		Compare(switch6, SWITCHED) ;
+        If(Equal, 101) ;
+		Compare(litactive, ON) ;
+        If(Equal, 101) ;
+		Set(litactive, ON) ;
+		Unblock(one) ;
+		Gosub(41);
+		End() ;
+
+41:	 //Lightning primer
+		Compare(switch6, SWITCHED) ; //hitting the switch disables
+        If(Equal, 100) ;
+		Compare(litactive, OFF) ;//Exit loop if we got here by accident
+        If(Equal, 100) ;
+		Delay(12) ;
+		Gosub(42) ;
+		End() ;
+
+42:	 //Lightning strikes
+		GenerateMissile(4006, -1218, 2446, 160, -1136, 2672, 176, 96); //10	6:30
+		Delay(12) ;
+		GenerateMissile(4006, -896, 2752, 160, -1136, 2672, 176, 96);	//1		2:30
+		Delay(12) ;
+		GenerateMissile(4006, -1216, 2896, 32, -1136, 2672, 176, 96);	//5		11:00
+		GenerateMissile(4006, -988, 2472, 0, -1136, 2672, 176, 96);	//12	5:00
+		Delay(12) ;
+		GenerateMissile(4006, -1342, 2524, 96, -1136, 2672, 176, 96);	//8		7:30
+		Delay(12) ;
+		GenerateMissile(4006, -1376, 2752, 80, -1136, 2672, 176, 96);	//6		9:30
+		GenerateMissile(4006, -896, 2592, 224, -1136, 2672, 176, 96);	//14	3:30
+		Delay(12) ;
+		GenerateMissile(4006, -1376, 2592, 0, -1136, 2672, 176, 96);	//7		8:30
+		GenerateMissile(4006, -928, 2822, 64, -1136, 2672, 176, 96);	//2		1:30
+		Delay(12) ;
+		GenerateMissile(4006, -986, 2874, 0, -1136, 2672, 176, 96);	//3		1:00
+		Delay(12) ;
+		GenerateMissile(4006, -920, 2522, 80, -1136, 2672, 176, 96);	//13	4:00
+		Delay(12) ;
+		GenerateMissile(4006, -1054, 2900, 208, -1136, 2672, 176, 96);	//4		12:30
+		GenerateMissile(4006, -1054, 2446, 112, -1136, 2672, 176, 96);	//11	5:30
+		Delay(12) ;
+		GenerateMissile(4006, -1288, 2474, 16, -1136, 2672, 176, 96);	//9		7:00
+		Gosub(41) ;
+		End() ;
+
+43:		//Start final room
+		Block(two) ;
+		Compare(endactive, ON) ;
+		If(Equal, 102) ;
+		Compare(portalopen, SWITCHED) ; //Don't restart if ending finished
+		If(Equal, 102) ;
+		Print("You're too late. The ritual is complete!")
+		SlideCeilingNice(495, 472, 176, 96, -1); //Pylon start 472 to  Pylon end 176
+		SlideCeilingNice(496, 472, 176, 96, -1);
+		Delay(112) ;
+		Set(endactive, ON);
+		Unblock(two);
+		Gosub(44) ;
+		End() ;
+
+44:		//Ending pylon Primer
+		Compare (endactive, OFF) ;
+		If(Equal, 100) ;
+		Gosub (45);
+		End() ;
+
+45:		//Ending pylon effects
+		GenerateMissile(4006, -174, -384, 208, 48, -384, 208, 96); //left to right
+		Delay(24) ;
+		GenerateMissile(4006, 48, -384, 272, -174, -384, 272, 96);  //right to left
+		Delay(24) ;
+		GenerateMissile(4006, -174, -384, 336, 48, -384, 336, 96); //left to right
+		Delay(96);
+		Gosub (44);
+		End() ;
+
+46:		//Open ending portal
+		Block(three);
+		Compare(portalopen, SWITCHED) ;
+		If(Equal, 103);
+		Set(endactive, OFF);
+		Print("A worthy warrior has been found.") ;
+		Delay(12);
+		Print("The portal has opened!") ;
+		SlideCeilingNice(495, 176, 472, 96, -1); //Pylon start 472 to  Pylon end 176
+		SlideCeilingNice(496, 176, 472, 96, -1);
+		Delay(96);
+		Set(portalopen, SWITCHED) ;
+		SlideFloorNice(498, 144, 16, 64, -1);
+		Delay(24) ;
+		Print("The only way to stop it is from inside!") ;
+		ActivateGenerator(3) ;
+		Unblock(three) ;
+		End() ;
+
+47:		//Basement Switch 1
+		Block(four) ;
+		Compare(switch, SWITCHED) ;
+		If(Equal, 104) ;
+        ChangeSideTexture(4537, "SWIT1U") ;
+		Sound(6007) ;
+		Set(switch, SWITCHED) ;
+		Gosub(49) ;
+		End() ;
+
+48:		//Basement Switch 2
+        Block(four) ;
+		Compare(switch2, SWITCHED) ;
+		If(Equal, 104) ;
+        ChangeSideTexture(2797, "SWIT1U") ;
+		Sound(6007) ;
+		Set(switch2, SWITCHED) ;
+		Delay(32) ;
+		Sound(4010) ;
+		SlideCeilingNice(503, 216, -40, 8, -1);
+		SlideCeilingNice(504, 216, -40, 8, -1);
+		SlideCeilingNice(371, 56, -112, 8, -1);
+		Delay(8) ;
+		Sound(4018);
+		Gosub(49) ;
+		End() ;
+
+49:		//Basement open
+		Compare(switch, NOT_SWITCHED) ; //right switch pulled
+		If(Equal, 104) ;		
+		Compare(switch2, NOT_SWITCHED) ; //left switch pulled
+		If(Equal, 104) ;		
+        Print("A rumbling is heard from above.") ;
+		SlideCeilingNice(12, 8, 128, 96, -1);
+		SlideCeilingNice(13, 8, 128, 96, -1);
+		SlideCeilingNice(18, 8, 128, 96, -1);
+		Gosub(104) ;
+		End() ;
+
+50:		//First Floor Switch 1
+		Block(four) ;
+		Compare(switch3, SWITCHED) ;
+		If(Equal, 104) ;
+        ChangeSideTexture(3532, "SWIT1U") ;
+		Sound(6007) ;
+		Set(switch3, SWITCHED) ;
+		Gosub(52) ;
+		End() ;
+
+51:		//First Floor Switch 2
+		Block(four) ;
+		Compare(switch4, SWITCHED) ;
+		If(Equal, 104) ;
+        ChangeSideTexture(3538, "SWIT1U") ;
+		Sound(6007) ;
+		Set(switch4, SWITCHED) ;
+		Gosub(52) ;
+		End() ;
+
+52:		//First Floor open
+        Compare(switch3, NOT_SWITCHED) ; //right switch pulled
+		If(Equal, 104) ;		
+		Compare(switch4, NOT_SWITCHED) ; //left switch pulled
+		If(Equal, 104) ;		
+        Print("A rumbling is heard on this floor.") ;
+		SlideCeilingNice(19, 8, 128, 96, -1);
+		SlideCeilingNice(15, 8, 128, 96, -1);
+		SlideCeilingNice(14, 8, 128, 96, -1);
+		Gosub(104) ;
+		End() ;
+
+53:		//Second Floor Switch 1 
+        Block(four) ;
+		Compare(switch5, SWITCHED) ;
+		If(Equal, 104) ;
+        ChangeSideTexture(3963, "SWIT1U") ;
+		Sound(6007) ;
+		Set(switch5, SWITCHED) ;
+		Gosub(55) ;
+		End() ;
+
+54:		//Second Floor Switch 2 
+        Block(four) ;
+		Compare(switch6, SWITCHED) ;
+		If(Equal, 104) ;
+        ChangeSideTexture(3437, "SWIT1U") ;
+		Sound(6007) ;
+		Set(switch6, SWITCHED) ;
+		Gosub(55) ;
+		End() ;
+
+55:		//Second Floor open
+        Compare(switch5, NOT_SWITCHED) ; //right switch pulled
+		If(Equal, 104) ;		
+		Compare(switch6, NOT_SWITCHED) ; //left switch pulled
+		If(Equal, 104) ;		
+        Print("A rumbling is heard from below.") ;
+		SlideCeilingNice(16, 8, 128, 96, -1);
+		SlideCeilingNice(17, 8, 128, 96, -1);
+		SlideCeilingNice(20, 8, 128, 96, -1);
+		Gosub(104) ;
+		End() ;
+
+56:		//First Floor Wizard Room Trap
+		Block(one) ;
+		ActivateGenerator(0) ;
+		ActivateGenerator(1) ;
+		ActivateGenerator(2) ;
+		Delay(97) ;
+		DeactiveGenerator(0) ;
+		DeactiveGenerator(1) ;
+		DeactiveGenerator(2) ;
+		Unblock(one) ;
+		End() ;
+
+100:    //end all
+        End() ;
+
+101:	//end block1
+		Unblock(one);
+		End ();
+
+102:	//end block2
+		Unblock(two);
+		End ();
+
+103:	//end block3
+		Unblock(three);
+		End ();
+
+104:	//end block3
+		Unblock(four);
+		End ();
+
+201: //Teleport - basement to 1st floor (up)
+		Delay(1) ;
+		Teleport(-1248, 272, 0) ;
+		End() ;
+
+202: //Teleport - 1st floor to basement (down)
+		Delay(1) ;
+		Teleport(1152, -2736, 0) ;
+		End() ;
+
+203: //Teleport - 1st floor to 2nd floor (up)
+		Delay(1) ;
+		Teleport(-1248, 1968, 0) ;
+		End() ;
+
+204: //Teleport - 2nd floor to 1st floor (down)
+		Delay(1) ;
+		Teleport(1120, 272, 0) ;
+		End() ;
+
+205: //Teleport - Secret spiral stairs to basement sewers
+		Delay(24) ;
+		Teleport(-96, -2160, 128) ;
+		End() ;
+
+206: //Teleport - Library Basement to 1st floor
+		Teleport(488, 688, 128) ;
+		End() ;
+
+207: //Teleport - Library Basement to 2nd floor
+		Teleport(240, 2592, 128) ;
+		End() ;
+
+208: //Teleport - Library 1st floor to Basement
+		Delay(16) ;
+		Teleport(368, -2336, 384) ;
+		End() ;
+
+209: //Teleport - Library 2nd floor to Basement
+		Delay(24) ;
+		Teleport(240, -2224, 960) ;
+		End() ;
