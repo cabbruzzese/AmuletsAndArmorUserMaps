@@ -7,10 +7,110 @@ defvar  one             1
 defvar	two				2
 defvar	three			3
 defvar  switch          5
+defvar	gate			6
+defvar  quakeactive		7
 
 0:      //init
         Unblock(one) ;
         Unblock(two) ;
         Unblock(three) ;
 		Set(switch, NOT_SWITCHED) ;
+		Set(gate, NOT_SWITCHED) ;
+		Set(gate, OFF) ;
         End() ;
+
+40: //Fireball Trap
+		Delay(4);
+		GenerateMissile(4005, -1760, 2144, -96, -1760, 1888, -96, 64);
+		Delay(4);
+		GenerateMissile(4005, -1696, 2144, -96, -1696, 1888, -96, 64);
+		End() ;
+
+41: //Open secret door
+		Block(one);
+		Compare(switch, SWITCHED) ;
+		If(Equal, 101) ;
+		Set(switch, SWITCHED);
+		SlideCeilingNice(156, -448, -320, 64, -1);
+		Unblock(one);
+		End();
+
+42: //Close invasion door
+		Block(two);
+		Compare(gate, SWITCHED);
+		If(Equal, 102);
+		Set(gate, SWITCHED);
+		Print("The portal is sealed.");
+		SlideFloorNice(431, -120, -140, 16, -1);
+		Delay(24);
+		SlideCeilingNice(433, 88, -64, 128, -1);
+		Print("The ground is becoming unstable!");
+		Delay(196); //Earthquake
+		Sound(3005);
+		Effect(29, 0, 128, 0);
+		SlideFloorNice(427, -104,-592, 72, -1);
+		Unblock(two);
+		Gosub(43); //start the earthquakes forever
+		End();
+
+43: //Earthquake Primer
+		Compare(gate, NOT_SWITCHED) ; //only prime if enabled
+        If(Equal, 100);
+		Compare(quakeactive, ON); //don't prime twice
+		If(Equal, 100);
+		Set(quakeactive, ON);
+		Gosub(44) ;
+		End();
+
+44: //Earthquake recurring effect
+		Delay(2160) ;
+		Sound(3005);
+		Effect(29, 0, 72, 0);
+		Delay(1000);
+		Sound(3005);
+		Effect(29, 0, 128, 0);
+		Delay(500);
+		Sound(3005);
+		Effect(29, 0, 32, 0);
+		Delay(128);
+		Sound(3005);
+		Effect(29, 0, 32, 0);
+		Gosub(45);
+		End();
+
+45: //Earthquake Loop
+		Compare(quakeactive, OFF); //double check earthquakes are still active
+		If(Equal, 100);
+		Gosub(44);
+		End();
+
+100:    //end all
+        End() ;
+
+101:    //end block 1
+		Unblock(one);
+        End() ;
+
+102:    //end block 2
+		Unblock(two);
+        End() ;
+
+201: //teleport to Mansion
+		Teleport(-1728,-2830,0);
+		End();
+
+202: //teleport to grand hallway
+		Teleport(-2656, 32, 0);
+		End();
+
+203: //teleport to Chest bones
+		Teleport(192, -192, 0);
+		End();
+
+204: //teleport to Secret room
+		Teleport(-2176, 1280, 0);
+		End();
+
+205: //teleport to starting door to outside chasm
+		Teleport(32, 1248, 0);
+		End();

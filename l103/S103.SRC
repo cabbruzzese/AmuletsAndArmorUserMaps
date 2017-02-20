@@ -222,7 +222,7 @@ defvar	portalopen		13
 
 55:		//Second Floor open
         Compare(switch5, NOT_SWITCHED) ; //right switch pulled
-		If(Equal, 104) ;		
+		If(Equal, 104) ;
 		Compare(switch6, NOT_SWITCHED) ; //left switch pulled
 		If(Equal, 104) ;		
         Print("A rumbling is heard from below.") ;
