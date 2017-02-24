@@ -40,14 +40,15 @@ defvar  quakeactive		7
 		Compare(gate, SWITCHED);
 		If(Equal, 102);
 		Set(gate, SWITCHED);
-		Print("The portal is sealed.");
+		Sound(6004); //switch press sound
 		SlideFloorNice(431, -120, -140, 16, -1);
 		Delay(24);
+		Sound(5002); //gate loud rumble sound
 		SlideCeilingNice(433, 88, -64, 128, -1);
-		Print("The ground is becoming unstable!");
-		Delay(196); //Earthquake
+		Print("The portal is sealed.");
+		Delay(196); 
 		Sound(3005);
-		Effect(29, 0, 128, 0);
+		Effect(29, 0, 128, 0); //Earthquake
 		SlideFloorNice(427, -104,-592, 72, -1);
 		Unblock(two);
 		Gosub(43); //start the earthquakes forever
@@ -58,6 +59,7 @@ defvar  quakeactive		7
         If(Equal, 100);
 		Compare(quakeactive, ON); //don't prime twice
 		If(Equal, 100);
+		Print("The ground is becoming unstable!");
 		Set(quakeactive, ON);
 		Gosub(44) ;
 		End();

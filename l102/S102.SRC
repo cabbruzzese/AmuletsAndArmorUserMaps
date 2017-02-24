@@ -33,8 +33,10 @@ defvar	switch2			5
         If(Equal, 100) ; //not switch, goto end all
 		Block(two) ;
 		Delay(5) ;
+		Sound(5001); //platform moving up
 		SlideFloorNice(75, -8, 144, 64, -1) ; // castle platform
 		Delay(192) ;//68 * 3
+		Sound(5001); //platform moving down
 		SlideFloorNice(75, 144, -8, 64, -1) ; // castle platform
 		Unblock(two) ;
 		End();
@@ -46,10 +48,13 @@ defvar	switch2			5
 		Set(switch2, SWITCHED)
         If(Equal, 100) ; //not switch, goto end all
 		SlideCeilingNice(140, 176, 267, 24, -1) ; // door 1
+		Sound(6007) ; //play sound of door unlocking
 		Delay(16);
 		SlideFloorNice(154, -16, 112, 48, -1) ; // platform 1
+		Sound(3005);//grinding stone sound
 		Delay(16);
 		SlideFloorNice(155, -16, 112, 48, -1) ; // platform 2
+		Sound(3005);//grinding stone sound
 		Delay(16);
 		SlideCeilingNice(147, 176, 267, 24, -1) ; // door 2
 		Delay(16);
