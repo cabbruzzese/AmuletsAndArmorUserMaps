@@ -69,10 +69,10 @@ defvar  switch          4
 
 202:	//Teleport to middle of tower
 		Delay(1) ;
-		Teleport(-1840, 128, 0) ;
+		Teleport(-1952, 128, 0) ;
 		End() ;
 
-203:	//Teleport to middle of tower
+203:	//Teleport to chapel area
 		Delay(1) ;
 		Teleport(592, 128, 0) ;
 		End() ;
