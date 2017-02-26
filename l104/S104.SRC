@@ -6,24 +6,31 @@ defnum  OFF             3
 defvar  one             1
 defvar	two				2
 defvar	three			3
+defvar	four			4
 defvar  switch          5
 defvar	gate			6
 defvar  quakeactive		7
+defvar	invasion		8
 
 0:      //init
         Unblock(one) ;
         Unblock(two) ;
         Unblock(three) ;
+		Unblock(four) ;
 		Set(switch, NOT_SWITCHED) ;
 		Set(gate, NOT_SWITCHED) ;
-		Set(gate, OFF) ;
+		Set(quakeactive, OFF) ;
+		Set(invasion, OFF);
         End() ;
 
 40: //Fireball Trap
+		Block(three);
 		Delay(4);
 		GenerateMissile(4005, -1760, 2144, -96, -1760, 1888, -96, 64);
 		Delay(4);
 		GenerateMissile(4005, -1696, 2144, -96, -1696, 1888, -96, 64);
+		Delay(16);//keep trap from firing in rapid fire succession in case earthquake happens while in doorway
+		Unblock(three);
 		End() ;
 
 41: //Open secret door
@@ -40,12 +47,15 @@ defvar  quakeactive		7
 		Compare(gate, SWITCHED);
 		If(Equal, 102);
 		Set(gate, SWITCHED);
+		DeactiveGenerator(0);//Disable invasion generator
+		DeactiveGenerator(1);
+		DeactiveGenerator(2);
 		Sound(6004); //switch press sound
 		SlideFloorNice(431, -120, -140, 16, -1);
 		Delay(24);
 		Sound(5002); //gate loud rumble sound
 		SlideCeilingNice(433, 88, -64, 128, -1);
-		Print("The portal is sealed.");
+		Print("The invasion gate has been sealed.");
 		Delay(196); 
 		Sound(3005);
 		Effect(29, 0, 128, 0); //Earthquake
@@ -86,6 +96,19 @@ defvar  quakeactive		7
 		Gosub(44);
 		End();
 
+46: //Start invasion force generator
+		Block(four);
+		Compare(invasion, ON); //don't start multiple times
+		If(Equal, 104);
+		Compare(gate, SWITCHED); //don't start if gate is closed
+		If(Equal, 104);
+		Set(invasion, ON);
+		ActivateGenerator(0);
+		ActivateGenerator(1);
+		ActivateGenerator(2);
+		Unblock(four);
+		End();
+
 100:    //end all
         End() ;
 
@@ -95,6 +118,14 @@ defvar  quakeactive		7
 
 102:    //end block 2
 		Unblock(two);
+        End() ;
+
+103:    //end block 3
+		Unblock(three);
+        End() ;
+
+104:    //end block 4
+		Unblock(four);
         End() ;
 
 201: //teleport to Mansion
